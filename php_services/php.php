@@ -47,7 +47,56 @@ switch($op){
 		include('php_controller_js_service.php');
 	break;
 	?>
-	
+    <?php
+	case 'auth':
+		include('php_auth_service.php');
+	break;
+	?>
+    <?php
+	case 'conexion':
+		include('php_conexion_service.php');
+	break;
+	?>   
+    <?php
+	case 'response':
+		include('php_response_service.php');
+	break;
+	?>
+    <?php
+	case 'token':
+		include('php_token_service.php');
+	break;
+	?>  
+    <?php
+	case 'general':
+		include('php_general_service.php');
+	break;
+	?> 
+    <?php
+	case 'authc':
+		include('php_authc_service.php');
+	break;
+	?>    
+	<?php
+	case 'htaccess':
+		include('php_htaccess_service.php');
+	break;
+	?> 
+	<?php
+	case 'modelfile':
+		include('php_modelfile_service.php');
+	break;
+	?>   
+	<?php
+	case 'endpointfile':
+		include('php_endpointfile_service.php');
+	break;
+	?> 
+	<?php
+	case 'generalwsc':
+		include('php_generalwsc_service.php');
+	break;
+	?>     
 <?php
 } //end switch ============================================
 ?>

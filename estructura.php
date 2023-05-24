@@ -36,11 +36,23 @@ break;
 <?php
 case 'php_services':
 ?>
-<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_model();" type="button">Model Service</button>
-<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_handler();" type="button">handler Service</button>
-<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_view();" type="button">View Service</button>
-<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_controller();" type="button">Controller Service</button>
-<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_controller_js();" type="button">Controller_js Service</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_model();" type="button">Model Service (class)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_authc();" type="button">Auth (Class)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_token();" type="button">Token (class)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_general();" type="button">General (class)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_conexion();" type="button">Conexión (class)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_response();" type="button">Response (class)</button>
+
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_handler();" type="button">handler Service - (endpoint)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_auth();" type="button">Auth (endpoint)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_htaccess();" type="button">htaccess (endpoint)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_modelfile();" type="button">Model with File</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_endpointfile();" type="button">Endpoint with File</button>
+
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_view();" type="button">View Service (wsc)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_controller();" type="button">Controller Service (wsc)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_controller_js();" type="button">Controller_js Service (wsc)</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="php_srv_generalwsc();" type="button">General (wsc)</button>
 <?php
 break;
 ?>

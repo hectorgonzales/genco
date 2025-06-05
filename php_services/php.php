@@ -26,7 +26,6 @@ switch($op){
 		include('php_model_service.php');
 	break; 
 	?>
-		
 	<?php
 	case 'handler':
 		include('php_handler_service.php');
@@ -37,14 +36,29 @@ switch($op){
 		include('php_view_service.php');
 	break;
 	?>
+	<?php
+	case 'view_sec': //secure
+		include('php_view_service_sec.php');
+	break;
+	?>
     <?php
 	case 'controller':
 		include('php_controller_service.php');
 	break;
 	?>
+	<?php
+	case 'controller_sec':
+		include('php_controller_service_sec.php');
+	break;
+	?>
     <?php
 	case 'controller_js':
 		include('php_controller_js_service.php');
+	break;
+	?>
+	<?php
+	case 'controller_js_sec':
+		include('php_controller_js_service_sec.php');
 	break;
 	?>
     <?php

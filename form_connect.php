@@ -7,8 +7,15 @@
     <input type="text" id="txt_user" class="uk-margin-small-bottom" value="root" /><br />
     <input type="text" id="txt_password" class="uk-margin-small-bottom"/><br />
     <select id="txt_database" class="uk-margin-small-bottom">
-    	<option>appsitd2</option>
+<option>apptaxi</option>
+<option>applab</option>
+<option>appinformatica</option> 
+<option>applic</option> 
+<option>scam_2023</option>    	
+<option>appsitd2</option>
+<option>appbtrabajo</option>
         <option>appsesi</option>
+<option>wp_muni</option>
 		<option>app_almacen</option>
         <option>web_hospital</option>
         <option>appsci</option>

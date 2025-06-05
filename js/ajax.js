@@ -76,8 +76,42 @@ function ver_php_services(){
 }
 
 //--------------------------------------------------------------------------------------------------------
+function ver_php_services_sec(){		
+	var parametros = {'op':'php_services_sec'}
+	$.ajax({
+		data:  parametros,
+		cache: false,
+		url:   './estructura.php',
+		type: 'post',
+		beforeSend: function () {
+				$("#ct_opciones").html("<i class=\"uk-icon-refresh uk-icon-spin\"></i> Procesando...");
+		},
+		success:  function (response) {
+				$("#ct_opciones").html(response);
+				$("#ct_campos").html("");
+		}
+	});
+}
+//--------------------------------------------------------------------------------------------------------
 function ver_vb(){		
   	var parametros = {'op':'vb'}
+  	$.ajax({
+		  data:  parametros,
+		  cache: false,
+		  url:   './estructura.php',
+		  type: 'post',
+		  beforeSend: function () {
+				  $("#ct_opciones").html("<i class=\"uk-icon-refresh uk-icon-spin\"></i> Procesando...");
+		  },
+		  success:  function (response) {
+				  $("#ct_opciones").html(response);
+				  $("#ct_campos").html("");
+		  }
+  	});
+}
+//--------------------------------------------------------------------------------------------------------
+function ver_csharp(){		
+  	var parametros = {'op':'csharp'}
   	$.ajax({
 		  data:  parametros,
 		  cache: false,

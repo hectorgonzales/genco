@@ -43,5 +43,7 @@
 <script type="text/javascript"  src="js/ajax.js"></script>
 <script type="text/javascript"  src="js/php.js"></script>
 <script type="text/javascript"  src="js/php_service.js"></script>
+<script type="text/javascript"  src="js/php_service_sec.js"></script>
 <script type="text/javascript"  src="js/vb.js"></script>
+<script type="text/javascript"  src="js/csharp.js"></script>
 </html>

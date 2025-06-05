@@ -38,10 +38,18 @@ if($metodo=="GET"){
 		header("Content-type: application/json");
 		echo json_encode($rs);
 		http_response_code(200);*/   		
-	
+	/*
 	}elseif(isset($_GET['pk'])){
 		$pk=$_GET['pk'];
 		$rs=$obj_general->obtenerRegistro($tb,$pk);
+		header("Content-type: application/json");
+		echo json_encode($rs);
+		http_response_code(200);	
+	}*/
+
+	}elseif(isset($_GET['getRow'])){
+		$params=$_GET['getRow'];
+		$rs=$obj_general->obtenerRegistro($tb,$params);
 		header("Content-type: application/json");
 		echo json_encode($rs);
 		http_response_code(200);	

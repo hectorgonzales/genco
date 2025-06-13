@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 using System.Data;
+using MySql.Data.MySqlClient;
 <?php
 $tbnombre=$objDatos->tbNombreOriginal;
 if($tbnombre=="usuario" || $tbnombre=="usuarios"){ ?>
@@ -17,73 +13,81 @@ public class M<?=$objDatos->tbNombreCamello."{\n";?>
 echo $objDatos->camposPrivate;
 echo "\n";
 ?>
-//=====================================================
-MConexion objConexion = new MConexion();
-MySqlConnection con = null;
-//=====================================================
 public M<?=$objDatos->tbNombreCamello;?>(<?=substr($objDatos->camposConstruct,0,-1);?>){
 <?=substr($objDatos->camposThis,0,-1);?>
 }
 
-public M<?=$objDatos->tbNombreCamello?> leerDatosRegistro(string campo, string valor, bool si_extra = false, string bus_extra = null){
-        con = objConexion.conectar();
-        string sql = null;
-        if (si_extra == false){
-            sql = "SELECT * FROM <?=$objDatos->tbNombreOriginal?> WHERE " + campo + "='" + valor + "'";
-        }else{
-            sql = "SELECT * FROM <?=$objDatos->tbNombreOriginal?> WHERE " + campo + "='" + valor + "'" + bus_extra;
-        }       
-        MySqlCommand cmd = new MySqlCommand(sql, con);
-        M<?=$objDatos->tbNombreCamello?> obj<?=$objDatos->tbNombreCamello?> = new M<?=$objDatos->tbNombreCamello?>();
-        MySqlDataReader reader = cmd.ExecuteReader();
-        if (reader.HasRows){
-            while (reader.Read()){
-                <?=$objDatos->camposRead?>
-            }
-        }else{
-            <?="obj".$objDatos->tbNombreCamello.".pk_".$objDatos->tbNombreOriginal."=0;\n"?>
+public M<?=$objDatos->tbNombreCamello?> getRegistro(int pk = 0, Dictionary<string, string> parametros = null)
+{
+    string sql = "";
+    if (parametros == null)
+    {
+        sql = $"SELECT * FROM <?=$objDatos->tbNombreOriginal?> WHERE pk_ensayo = '{pk}'";
+    }
+    else
+    {
+        string campo = (parametros.ContainsKey("campo")) ? parametros["campo"] : "";
+        string valor = (parametros.ContainsKey("valor")) ? parametros["valor"] : "";
+        string condicion = (parametros.ContainsKey("condicion")) ? parametros["condicion"] : "";
+        sql = $"SELECT * FROM <?=$objDatos->tbNombreOriginal?> WHERE {campo} = '{valor}' {condicion}";
+    }
+
+using (MySqlConnection con = MConexion.conectar())
+ using (MySqlCommand cmd = new MySqlCommand(sql, con)){
+    M<?=$objDatos->tbNombreCamello?> obj<?=$objDatos->tbNombreCamello?> = new M<?=$objDatos->tbNombreCamello?>();
+    using (MySqlDataReader reader = cmd.ExecuteReader()){
+    if (reader.HasRows)
+    {
+        while (reader.Read())
+        {
+            <?=$objDatos->camposRead?>
         }
-        reader.Close();
-        cmd.Dispose();
-        return obj<?=$objDatos->tbNombreCamello.";"?>
+    }
+    else
+    {
+        <?="obj".$objDatos->tbNombreCamello.".pk_".$objDatos->tbNombreOriginal."=0;\n"?>
+    }
+    return obj<?=$objDatos->tbNombreCamello.";"?>
+}
+}
 }
 
 //==============================================INSERTAR============================================================
-public int insertar(){
-        con = objConexion.conectar();
-        MySqlCommand cmd = new MySqlCommand("<?=$objDatos->camposInsert?>", con);	
+public long insertar(){
+    using (MySqlConnection con = MConexion.conectar())
+        using(MySqlCommand cmd = new MySqlCommand("<?=$objDatos->camposInsert?>", con)){	
         <?=$objDatos->camposParameter?>
         int filasAfectadas = cmd.ExecuteNonQuery();
-        cmd.Dispose();
-        con.Close();
-        return filasAfectadas;
+        long pk= 0;
+        if (filasAfectadas > 0){
+        pk= cmd.LastInsertedId;
+        }
+        return pk;
+        }
 }
     
 //==============================================ACTUALIZAR============================================================
-public int actualizar(int pk){
-        con = objConexion.conectar();
-        MySqlCommand cmd = new MySqlCommand("<?=$objDatos->camposUpdate?> WHERE pk_<?=$objDatos->tbNombreOriginal?>=?pk", con);
-        cmd.Parameters.AddWithValue("?pk",pk);
+public int actualizar(){
+    using(MySqlConnection con = MConexion.conectar())
+        using(MySqlCommand cmd = new MySqlCommand("<?=$objDatos->camposUpdate?> WHERE pk_<?=$objDatos->tbNombreOriginal?>=?pk", con)){
+        cmd.Parameters.AddWithValue("?pk",this.pk_<?=$objDatos->tbNombreOriginal?>);
         <?=$objDatos->camposParameter?>
         int filasAfectadas = cmd.ExecuteNonQuery();
-        cmd.Dispose();
-        con.Close();
         return filasAfectadas;
-}
- 
-      
+        }
+}     
 <?php
  $tbnombre=$objDatos->tbNombreOriginal;
  if($tbnombre=="usuario" || $tbnombre=="usuarios"){
 ?>
 //==============================================COMPROBAR USUSARIO============================================================
 public M<?=$objDatos->tbNombreCamello?> comprueba<?=$objDatos->tbNombreCamello?>(string login, string password){
-    con = objConexion.conectar();
-    MySqlCommand cmd = new MySqlCommand("select * from <?=$objDatos->tbNombreOriginal?>  where login=?login and password=?password", con);
+    using(MySqlConnection con = MConexion.conectar())
+    using(MySqlCommand cmd = new MySqlCommand("select * from <?=$objDatos->tbNombreOriginal?>  where login=?login and password=?password", con)){
     cmd.Parameters.AddWithValue("?login", login);
     cmd.Parameters.AddWithValue("?password", generarClaveSHA1(password));
     M<?=$objDatos->tbNombreCamello?> obj<?=$objDatos->tbNombreCamello?> = new M<?=$objDatos->tbNombreCamello?>();
-    MySqlDataReader reader = cmd.ExecuteReader();
+    using(MySqlDataReader reader = cmd.ExecuteReader()){
     if (reader.HasRows)
     {
         while (reader.Read())
@@ -95,10 +99,9 @@ public M<?=$objDatos->tbNombreCamello?> comprueba<?=$objDatos->tbNombreCamello?>
     {
         obj<?=$objDatos->tbNombreCamello?>.<?=$objDatos->pkTabla?> = 0;
     }
-    reader.Close();
-    cmd.Dispose();
-    con.Close();
+}
     return obj<?=$objDatos->tbNombreCamello?>;
+}
 }
 
 //==============================================================
@@ -122,10 +125,9 @@ private string generarClaveSHA1(string clave)
 }
      
  <?php
- } // end tb_user ?>
- 
- 
+ } ?>
 <?php
+
 echo "}//end class\n}//end namespace";
 ?> 
 

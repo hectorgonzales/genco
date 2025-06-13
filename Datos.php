@@ -27,6 +27,7 @@ class Datos{
 	public $camposConstruct;
 	public $camposThis;
 	public $camposParams;
+	public $camposRdlc;
 	//--------------services------------------------
 	public $primerCampo;
 	public $camposIsset;
@@ -39,6 +40,8 @@ class Datos{
 	public $camposFormNew;
 	//---------------INSERT------------------
 	public $camposPost;
+	public $camposInsertController;
+	public $camposEditController;
 	//---------------JS-----------------------
 	public $camposInsertJs;
 	public $camposInsertPostJs;
@@ -217,7 +220,6 @@ class Datos{
 	}
 
 	//================C# ==============================================================================
-	
 	public function verCamposTipoCsharp($tabla){
 		$con=new Conexion($this->server, $this->user, $this->password, $this->database, $this->port);	
 		$sql="describe $tabla";
@@ -246,6 +248,65 @@ class Datos{
         $form.='<td colspan="2"><input type="hidden" id="total_n" value="'.$n.'" /><button class="uk-button uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_model();" type="button">Procesar Campos</button></td></table></form>';
 		return $form;
 	}
+
+//==============================RDLC==============================================
+	public function verCamposTipoCsharpRdlc($tabla){
+		$con=new Conexion($this->server, $this->user, $this->password, $this->database, $this->port);	
+		$sql="describe $tabla";
+		$datos=$con->query($sql);
+		
+		$form="";
+		$form.='<form class="uk-form" method="post"><table border="0" align="center">';
+        $n=0;
+       	
+		while($camposTabla=$datos->fetch_array(MYSQLI_ASSOC)){
+			$seleccionar="";
+			if(substr($camposTabla['Field'],0,2)=="pk" || substr($camposTabla['Field'],0,2)=="fk"){$seleccionar="selected";}
+			
+           $form.=' <td><input type="text" id="c'.$n.'" value="'.$camposTabla['Field'].'" /></td>
+            <td>
+            <select id="t'.$n.'">
+				<option  value="String">String</option>
+          		<option  value="Int32"'.$seleccionar.'>Integer</option>
+           		<option  value="DateTime">DateTime</option>
+            	<option  value="Boolean">Boolean</option>
+            </select>
+            </td><tr />';
+        $n++;
+        } 
+        $form.='<td colspan="2"><input type="hidden" id="total_n" value="'.$n.'" /><button class="uk-button uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_rdlc();" type="button">Procesar Campos</button></td></table></form>';
+		return $form;
+	}	
+
+	public function verCamposTipoCsharpController($tabla){
+		$con=new Conexion($this->server, $this->user, $this->password, $this->database, $this->port);	
+		$sql="describe $tabla";
+		$datos=$con->query($sql);
+		
+		$form="";
+		$form.='<form class="uk-form" method="post"><table border="0" align="center">';
+        $n=0;
+       	
+		while($camposTabla=$datos->fetch_array(MYSQLI_ASSOC)){
+			$seleccionar="";
+			if(substr($camposTabla['Field'],0,2)=="pk" || substr($camposTabla['Field'],0,2)=="fk"){$seleccionar="selected";}
+			
+           $form.=' <td><input type="text" id="c'.$n.'" value="'.$camposTabla['Field'].'" /></td>
+            <td>
+            <select id="t'.$n.'">
+                <option  value="string">string</option>
+                <option  value="double">double</option>
+                <option  value="int"'.$seleccionar.'>int</option>
+                <option  value="long">long</option>
+                <option  value="bool">bool</option>
+            </select>
+            </td><tr />';
+        $n++;
+        } 
+        $form.='<td colspan="2"><input type="hidden" id="total_n" value="'.$n.'" /><button class="uk-button uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_controller();" type="button">Procesar Campos</button></td></table></form>';
+		return $form;
+	}
+
 	
 	
 	public function prepararCamposTablaCsharp($campos, $tipos,$tn){
@@ -257,6 +318,9 @@ class Datos{
 		$this->camposDolar="";
 		$this->camposInsert="";
 		$this->camposParameter="";
+		$this->camposInsertController="";
+		$this->camposEditController="";
+		$this->camposRdlc="";
 		$camposUpdateValor="";
 		$n=1;
 		$valoresDefault=array("\"\"","0");
@@ -270,13 +334,15 @@ class Datos{
 				$convert="Convert.ToInt32(";
 				$convertEnd=")";
 			}
+			$this->camposRdlc.="<Field Name=\"".strtolower(trim($campos[$a]))."\">\n<DataField>".strtolower(trim($campos[$a]))."</DataField>\n<rd:TypeName>System.".$tipos[$a]."</rd:TypeName>\n</Field>\n";
 			$this->camposPrivate.="public ".$tipos[$a]." ".strtolower(trim($campos[$a]))." {get; set;}\n";		
 			$this->camposRead.="obj".$this->tbNombreCamello.".".trim($campos[$a])."=".$convert."reader[\"".strtolower(trim($campos[$a]))."\"]".$convertEnd.";\n";
 			
 			if($n>1){
-				//string var_marca = null
 				$this->camposConstruct.=$tipos[$a]." ".trim($campos[$a])."=".$valor.",";
 				$this->camposThis.="this.".strtolower(trim($campos[$a]))." = ".$campos[$a].";\n";
+				$this->camposInsertController.="objM".$this->tbNombreCamello.".".strtolower(trim($campos[$a]))."=this.".strtolower(trim($campos[$a])).";\n";
+				$this->camposEditController.="this.".strtolower(trim($campos[$a]))." = obj.".$campos[$a].";\n";
 				$this->camposDolar.="?".strtolower(trim($campos[$a])).",";
 				$this->camposLista.=strtolower(trim($campos[$a])).",";
 				$this->camposParameter.="cmd.Parameters.AddWithValue(\"?".trim($campos[$a])."\",this.".trim($campos[$a]).");\n";
@@ -285,7 +351,7 @@ class Datos{
 			$n++;
 		}
 		$this->camposUpdate="UPDATE ".$this->tbNombreOriginal." SET ".substr($camposUpdateValor,0,-1)."";
-		$this->camposInsert="INSERT INTO ".$this->tbNombreOriginal." (".substr($this->camposLista,0,-1).") VALUES (".substr($this->camposDolar,0,-1)."";
+		$this->camposInsert="INSERT INTO ".$this->tbNombreOriginal." (".substr($this->camposLista,0,-1).") VALUES (".substr($this->camposDolar,0,-1).")";
 
 	}
 	

@@ -97,10 +97,10 @@ break;
 case 'csharp':
 ?>
 <button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_ver_tipo();" type="button">Model C#</button>
-<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_controller();" type="button">Controller C#</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_ver_tipo_controller();" type="button">Controller C#</button>
 <button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_connection();" type="button">Connection C#</button>
 <button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_general();" type="button">General Model C#</button>
-<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_general_view();" type="button">General View C#</button>
+<button class="uk-button uk-button-mini uk-button-success uk-width-1-1 uk-margin-small-bottom" onclick="c_ver_tipo_rdlc();" type="button">Campos RDLC</button>
 <?php
 break;
 ?>

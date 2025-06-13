@@ -114,6 +114,7 @@ function vb_general(){
 		var p=$("#txt_password").val();
 		var d=$("#txt_database").val();
 		var tb=$("#txt_table").val();
+		var port=$("#txt_port").val();
 	
  var parametros = {'op':'general','h':h,'u':u,'p':p,'d':d,'tb':tb,'port':port}
 
